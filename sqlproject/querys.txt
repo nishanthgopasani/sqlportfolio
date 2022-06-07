@@ -1,0 +1,107 @@
+
+question 1
+
+
+SELECT Count(id) FROM `bigquery-public-data.thelook_ecommerce.order_items`
+ where status='Cancelled' and created_at between '2020-01-01' and '2021-01-01';
+
+
+
+question 2 
+=====================
+
+
+
+select distinct (brand) from `bigquery-public-data.thelook_ecommerce.products` 
+where category = 'Jeans' LIMIT 5;
+
+==============================================================
+
+q3)
+
+
+
+
+select concat(a.first_name, "  " ,a.last_name)as user,sum(b.num_of_item) 
+from `bigquery-public-data.thelook_ecommerce.users` a
+inner join `bigquery-public-data.thelook_ecommerce.orders` b on a.id= b.user_id
+ group by user order by sum(b.num_of_item)DESC LIMIT 10; 
+
+
+
+
+=================================================================
+
+q4)
+
+
+
+
+select sum(a.sale_price) from `bigquery-public-data.thelook_ecommerce.order_items` a
+inner join `bigquery-public-data.thelook_ecommerce.users` b on
+a.user_id = b.id 
+inner join `bigquery-public-data.thelook_ecommerce.inventory_items` c on
+a.inventory_item_id = c.id
+where gender='F' and country ='China' and product_category ='Fashion Hoodies & Sweatshirts';
+
+
+
+	
+80446.380182266235
+================================================
+
+
+Q5
+
+select sum(a.num_of_item) from `bigquery-public-data.thelook_ecommerce.orders` a 
+inner join  `bigquery-public-data.thelook_ecommerce.order_items` b on 
+a.order_id = b.order_id
+inner join `bigquery-public-data.thelook_ecommerce.inventory_items` c on
+b.product_id=c.product_id
+inner join `bigquery-public-data.thelook_ecommerce.users` d on 
+d.id = b.user_id
+where d.country='United States' and d.traffic_source='Facebook'and c.product_brand='Allegra K';
+
+
+
+
+===========================================
+
+q 6)
+
+ 
+
+select product_category from (select distinct(product_category) 
+from `bigquery-public-data.thelook_ecommerce.inventory_items`
+where sold_at is null  limit 2) as unsold_items
+order by unsold_items.product_category limit 1 ;
+
+==================================================================
+
+Q7
+select a.postal_code, a.city,a.country from `bigquery-public-data.thelook_ecommerce.users` a
+inner join `bigquery-public-data.thelook_ecommerce.order_items` b on 
+a.id = b.user_id 
+inner join `bigquery-public-data.thelook_ecommerce.inventory_items` c on 
+c.product_id = b.product_id
+inner join `bigquery-public-data.thelook_ecommerce.distribution_centers` d on 
+d.id=c.product_distribution_center_id
+where product_category =(select product_category from (select distinct(product_category) 
+from `bigquery-public-data.thelook_ecommerce.inventory_items`
+where sold_at is null  limit 2) as unsold_items
+order by unsold_items.product_category limit 1)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
